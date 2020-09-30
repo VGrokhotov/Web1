@@ -2,101 +2,232 @@
 <html lang="ru">  
   
   <head>
-    <title>Lab 1</title>
-    <link href="outlines.css" rel="stylesheet">
+    <title>Грохотов Владислав M33031</title>
+    <!-- <link href="outlines.css" rel="stylesheet"> -->
     <meta charset="utf-8">
-    <meta name="description" content="Портфолио">
+    <meta name="description" content="Портфолио Грохотова Владислава">
+    <meta name="keywords" content="Портфолио, Грохотов">
   </head> 
   
   <body>
 
     <header>
-        <nav>Ненужный текст</nav>
-        <h1>Грохотов Владислав Геннадиевич</h1>
-        <h2>Разраб</h2>
-        <h3>Филантроп</h3> 
+
+        <nav>
+            <h2>Навигация</h2>
+            <a href = "#skills">Навыки</a> |
+            <a href = "#languages">Языки программирования</a> |
+            <a href = "#libs">Библиотеки</a> |
+            <a href = "#examles">Примеры кода</a> |
+			<a href = "#extra">Дополнительная информация</a>
+        </nav>
+        
     </header>
     
     <main>
+        
+        <section>
+
+            <aside style  = "float:right">
+                Контактные данные:
+                <ul>
+                    <li>+7 (950) 044 71 03</li>
+                    <li>vlad@grokhotov.ru</li>
+                    <li>tg: @vgrokhotov</li>
+                </ul> 
+            </aside>
+            
+            <h1>Грохотов Владислав Геннадиевич</h1>
+            <p><time datetime="2000-05-03T">03.05.2000</time>, 20 лет<p>
+            <p>
+                <em>Сфера профессиональных интересов:</em>
+                <ul>
+                    <li><i>REST API</i></li>
+                    <li><i>Создание мобильных приложений для iOS</i></li>
+                </ul> 
+            </p>
+
+        </section>
+        
 
         <section>
-            Мои главные таланты:
-            <p>Изображать кота</p>
-            <p><del>Говорить о программировании</del></p>
-            <p><ins>Грустить</ins></p>
+
+            <p><a name="skills"></a>
+                <h3>Навыки и знания</h3>
+                <ul>
+                    <li>Алгоритмы и структуры данных</li>
+                    <li>Базы данных (MS SQL, PostgreSQL)</li>
+                    <li>Операционные системы (Linux, Windows)</li>
+                    <li>Администрирование операционных систем</li>
+                    <li>Паттерны и принципы программирования</li>
+                </ul>
+            </p>
+
+            <p><a name="languages"></a>
+                <h3>Языки программирования:</h3>
+                <ul>
+                    <li>C#, Java, Python, C, C++: учебная деятельность</li>
+                    <li>Swift: создание приложений для платформы iOS (<a href = "https://github.com/VGrokhotov">GitHub account</a>)</li>
+                </ul>
+            </p>
+
+            <p><a name="libs"></a>
+                <h3>Фреймворки и библиотеки</h3>
+                <ul>
+                    <li>Vapor (backend framework on Swift)</li>
+                    <li>WebSocket</li>
+                    <li>UIKit</li>
+                    <li>MultipeerConnectivity</li>
+                </ul>
+            </p>
+
         </section>
 
         <section>
-            Мои главные таланты x2:
-            <ul>
-                <li>Крякать</li>
-                <li>Ставить розетки</li>
-            </ul> 
+            <a name="examles"></a>
+            <h3>Пример кода:</h3>
+            <pre><code>
+                //
+                //  UsersStorageManager.swift
+                //  Intranet
+                //
+                //  Created by Владислав on 28.06.2020.
+                //  Copyright © 2020 Vladislav. All rights reserved.
+                //
+                import UIKit
+                import CoreData
 
-            <ol start=3 reversed type=A>   
-                <li>1 
-                    <ul> 
-                        <li>1.1</li>
-                        <li>1.2</li>
-                    </ul>
-                </li>   
-                <li>2</li>
-            </ol>
+                protocol UsersDataManager {
+                    
+                    func saveUser(user: User, completion: @escaping () -> ())
+                    
+                    func getUser() -> User?
+                    
+                    func deleteUser(completion: @escaping () -> ())
+                    
+                }
 
-            <dl>
-                <dt>HTML</dt>
-                <dd>Язык гипертекстовой разметки</dd>
-                <dt>CSS</dt>
-                <dd>Каскадные таблицы стилей</dd>
-                <dd>Язык дляо формления HTML-документов</dd>
-            </dl>
+                class UsersStorageManager: UsersDataManager {
+                    
+                    public static let shared: UsersDataManager = UsersStorageManager() // создаем Синглтон
+                    
+                    private init(){}
+                    
+                    let fetchRequest = NSFetchRequest<UserObject>(entityName: "UserObject")
+                    
+                    private lazy var container: NSPersistentContainer = {
+                        
+                        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                        
+                        if let appDelegate = appDelegate {
+                            return appDelegate.persistentContainer
+                        }
+                        
+                        return NSPersistentContainer()
+                    }()
 
+                    
+                    func saveUser(user: User, completion: @escaping () -> ()) {
+
+                        container.performBackgroundTask { (context) in
+                            
+                            guard let allUsers = try? context.fetch(self.fetchRequest) else { return }
+                            
+                            for userInContext in allUsers {
+                                context.delete(userInContext)
+                            }
+                            
+                            
+                            let currentUserObject = NSEntityDescription.insertNewObject(forEntityName: "UserObject", into: context) as? UserObject
+                            
+                            currentUserObject?.id = user.id
+                            currentUserObject?.name = user.name
+                            currentUserObject?.surname = user.surname
+                            
+                            try? context.save()
+                            
+                            DispatchQueue.main.async {
+                                completion()
+                            }
+                        }
+                    }
+                    
+                    func getUser() -> User? {
+                        
+                        guard let allUsers = try? container.viewContext.fetch(self.fetchRequest) else { return nil }
+                            
+                        return allUsers.first?.toUser()
+                    }
+                    
+                    func deleteUser(completion: @escaping () -> ()) {
+                        
+                        container.performBackgroundTask { (context) in
+                            
+                            guard let allUsers = try? context.fetch(self.fetchRequest) else { return }
+                            
+                            for userInContext in allUsers {
+                                context.delete(userInContext)
+                            }
+                            
+                            try? context.save()
+                            
+                            DispatchQueue.main.async {
+                                completion()
+                            }
+                        }
+                    }   
+                }
+            </code></pre>
         </section>
 
-        <pre><code>
-            if (a > b) {              // Игзампл оф коде ин
-                console.log('Hello!');  // ДжаваСкрипт лангуаге
-            } 
-        </code></pre>
-
-        <blockquote>
-            <p><q>C без ++ - ампутация без анестезии</q></p>
-            <cite>ДжейсонСтэтхэм</cite>
-        </blockquote>
-
-        <aside>
-            Небольшая история о том как я пролил кофе и решил стать программистом<br>
-            Lol<sup>2</sup><sub>78</sub>
-        </aside>
-        <br>
-        <article>Пост из Инстаграм</article>
-        <time datetime="2020-11-15T09:54">09:54 утра</time> 
-        <br>
-        Он <strong>взглянул</strong> в <b>окно</b> и <em>подумал</em> — <i>такого просто не может быть</i>!
-        <br>
-        &lt;ul&gt;
-        &lt;/ul&gt;
+        <section>
+            <a name="extra"></a>
+            <p>
+                <dl>
+                    <dt>Любимая цитата:</dt>
+                    <dd>
+                        <blockquote>
+                            <p><q>Sapere Aude</q></p>
+                            <cite>Квинт Гора́ций Флакк</cite>
+                        </blockquote>
+                    </dd>
+                    <dt>Формула успеха</dt>
+                    <dd><i>E = mc<sup>3</sup></i></dd>
+                </dl>
+            </p>
+        </section>
+        
     </main>
 
     <footer>
+        
         <pre>
-            ═════════▄▄▄▄▄═════▄▄▄▄▄════════
-            ═════▄▀▀▀░░░░░▀▀▄▀▀░░░▄░▀▄══════
-            ═══▄▀░░▀▄▄▀▀▀▀▄▄░▀▄▄▀▀▀▀▀▀█▄════
-            ══▄▀░░░▀░░░░▄▄▄▄▄██░░░▄▄▄▄▄▄▀▄══
-            ═▄▀░▄░░░▄▄▀▀═══════▀█▀══════▀▀█▄
-            ▀░░░█░░█═══════███══█═════███══█
-            ░░░░░░░▀▄▄═════▀▀▀══█═════▀▀▀═▄█
-            █░░░░░░░░▀▀▀█▄▄▄▄▄█▀░▀▀▀▀▀▀▀▀█▀═
-            ▀░░░░░░░░░░░▄▄▄▄▀▀░░░▀▄▄▄▄▄▀█═══
-            ░░░░░░░░░░░░░░░░░░░░░░░▀░░░░▀▄══
-            ░░░░░░░▄▄▄▄▄▄▄▄▄░░░░░░░░░░░░░█══
-            ░░░░░░█░▄▄▄▄▄▄▄░▀▀▀▀▀▀▀▀▀▀▀▀▀█══
-            ░░░█░░▀▄▄▄▄▄▄▄░▀▀▀▀▀▀▀▀▀▀▀▀▀█═══
-            ░░░░▀▄░░░░░░░░▀▀▀▀▀▀▀▀▀▀██▀▀════
-            ▄▄▄▄▄░░░░░░░░░░░░░░░░▄▀▀════════
-            ▓▓▓▓▓▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▄═════════
-            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▀
+            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+            ▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▌
+            ▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▌
+            ▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▌
+            ▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░▓▓░░░░▓▓▓▓▓▓▓▓▓▌
+            ▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░▓▓▓▓▓▓▓▓▌
+            ▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░▓▓▓▓▓▓▓▓▌
+            ▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░▓░░░░▓▓▓▌
+            ▐▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░█▄░░░░▄█░░░░░░░░▓▓▌
+            ▐▓▓▓▓▓▓▓▓▓▓░░░░▓▓▓▓▓▓▓░░░████████░░░░▄▄░░▓▓▌
+            ▐░░░░▓▓▓▓▓▓░░░░▓▓▓▓▓▓▓░░░███▀██▀█░░▄███░░▓▓▌
+            ▐░░░░▓▓▓▓▓▓░░░░▓▓▓▓▓▓▓░░░▐████▀██▄███▀░░░▓▓▌
+            ▐░░░░░▓▓▓░░░░░░▓▓▓░░░▓░░░░▀████████▀░░▄▄░░░▌
+            ▐░░░░░▓▓▓░░░░░░░░░░░░░░░░▄███████▀░░▄███░░░▌
+            ▐░░░░░▓▓▓░░░░░░░░░░░░░░░▄█████████▄███▀░░░░▌
+            ▐░░░░░░░░░░░░░░░░░░░░▄██████████████▀░░░░░░▌
+            ▐░░░░░░░░░░░░░░░░░░▄██████████████▀░░░░░░░░▌
+            ▐░░░░░░░░░░░░░░░░░▐████████████▀░░░░░░░░░░░▌
+            ▐░░░░░░░░░░░░░░░░░█████████████░░░░░░░░░░░░▌
+            ▐░░░░░░░░░░░░░░░░█████████████▌░░░░░░░░░░░░▌
+            ▐░░░░░░░░░░░░░░░██████████████░░░░░░░░░░░░░▌
+            ▐░██▄░░░░░░░▄▄██████████████▀░░░░░░░░░░░░░░▌
+            ▐░▀███▄░░▄███████████████▀▀░░░░░░░░░░░░░░░░▌
+            ▐░░░▀▀█████▀▀░░▒▀███▌███▄░░░░░░░░░░░░░░░░░░▌
+            ▐░░░░░░░░░░░░░░░░░▀██▌████░░░░░░░░░░░░░░░░░▌
+            ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
         </pre>
     </footer>
   </body>
