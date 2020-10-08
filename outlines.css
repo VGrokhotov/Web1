@@ -15,11 +15,40 @@ a {
 nav {
   font-size: 20px;
   background-color:#1E1F26;
-  text-align: center;
   padding-top: 10px;
   padding-bottom: 20px;
   position: sticky;
   top: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 5;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+.mainInfo {
+  padding-top: 20px;
+  color: #283655;
+  margin: 15px 50px; /* снаружи */
+  z-index: 0;
+  display: flex;
+  align-items: center;
+}
+
+
+.mainInfo img {
+  border-radius: 50%;
+  border-style: solid;
+  border-color: #4D648D;
+  height: 190px;
+}
+
+.description {
+  margin-left: 20px;
+  margin-top: 0;
 }
 
 section {
@@ -30,7 +59,8 @@ section {
   margin: 15px 50px; /* снаружи */
   border-width: 3px;
   border-style: solid;
-  border-color: #4D648D;  
+  border-color: #4D648D;
+  z-index: 0;
 }
 
 .ASCII {
@@ -38,27 +68,14 @@ section {
   line-height: 18px;
 }
 
-.myclass {
-  /* все правила касающиеся текста обычно наследуются для вложенных в селектор объектов*/
-  padding-top: 60px; /* отступ сверху */
-  font: 16px/26px "Arial", sans-serif; /* составное свойство для описания шрифта, неполное*/
-  font-size: 16px; /* размер шрифта */
-  background-image: url("img/back.png"); /* фоновая картинка */
-  color: red;
-  border-radius: 50%; /* относительное значение*/
+.contacts {
+  color: #283655;
+  display: flex;
+  justify-content: center;
 }
 
-/*если надо уточнить какую-то деталь для определенного типа, то можно сделать вот так*/
-.alert {
-  /* свойства для рамок, отступов и так далее */
-  background-color: lightgrey;
+.contacts a {
+  color: #283655;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-.alert-error { background-color: red; }
-
-/*и в html сделать так <div class="alert alert-error">Оши-ы-ы-бка!</div>*/
-/*можно писать в html-е 
-<head>
-  <style>
-    CSS-код
-  </style>
-</head>*/
