@@ -4,8 +4,7 @@ body {
   font-size: 16px;
   line-height: 25px;
   color: #ffffff;
-  background-color:#D0E1F9;
-
+  background-color: #d0e1f9;
 }
 
 a {
@@ -14,7 +13,7 @@ a {
 
 nav {
   font-size: 20px;
-  background-color:#1E1F26;
+  background-color: #1e1f26;
   padding-top: 10px;
   padding-bottom: 20px;
   position: sticky;
@@ -30,20 +29,21 @@ nav a {
 }
 
 .mainInfo {
-  padding-top: 20px;
+  /* padding-top: 20px; */
   color: #283655;
   margin: 15px 50px; /* снаружи */
+  margin-top: -40px;
+  padding-top: 40px;
   z-index: 0;
   display: flex;
   align-items: center;
 }
 
-
 .mainInfo img {
   border-radius: 50%;
   border-style: solid;
-  border-color: #4D648D;
-  height: 190px;
+  border-color: #4d648d;
+  height: 180px;
 }
 
 .description {
@@ -53,14 +53,21 @@ nav a {
 
 section {
   /* 1E1F26 283655 4D648D D0E1F9 */
-  background-color:#283655;
+  background-color: #283655;
   border-radius: 50px;
-  padding: 10px 50px; /* внутри */
+  padding: 0px 50px 10px; /* внутри */
   margin: 15px 50px; /* снаружи */
   border-width: 3px;
   border-style: solid;
-  border-color: #4D648D;
+  border-color: #4d648d;
   z-index: 0;
+}
+
+section::before {
+  display: block;
+  content: "";
+  height: 55px;
+  margin: -25px 0 0;
 }
 
 .ASCII {
