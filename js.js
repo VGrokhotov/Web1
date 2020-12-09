@@ -136,17 +136,16 @@ document.querySelector('.contactsButton').onclick = function () {
   document.body.appendChild(shadow);
 }
 
-var img = document.querySelector('img');
+var imgContainer = document.querySelector('.imageContainer');
 images = ['vg1.jpg', 'vg2.jpeg', 'vg3.jpg'];
 
 var currentIndex = 0; 
 
-img.onclick = function() {
-  console.log('lol');
+imgContainer.onclick = function() {
   if (currentIndex == images.length - 1) {
     currentIndex = 0;
   } else {
     currentIndex++;
   }
-  img.src = "img/" + images[currentIndex]
+  imgContainer.img.src = "img/" + images[currentIndex]
 }

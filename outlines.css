@@ -52,12 +52,27 @@ nav a {
   align-items: center;
 }
 
-.mainInfo img {
+.mainInfo .imageContainer {
+  height: 180px;
+  width: 180px;
+}
+
+.mainInfo .imageContainer h4{
+  color: #283655;
+  position: absolute;
+  margin-top: 80px;
+  margin-left: 65px;
+  z-index: 0;
+}
+
+.mainInfo .imageContainer img{
   border-radius: 50%;
   border-style: solid;
   border-color: #4d648d;
   height: 180px;
   width: 180px;
+  position: absolute;
+  z-index: 4;
 }
 
 .description {
