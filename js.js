@@ -118,8 +118,6 @@ var shadow = document.createElement('div');
 shadow.className = 'shadow';
 
 var contacts = document.querySelector('.contacts');
-contacts.className = 'contacts';
-contacts.style.display = 'flex';
 
 contacts.onclick = function(event) {
   event.stopPropagation();
@@ -128,10 +126,12 @@ contacts.onclick = function(event) {
 shadow.onclick = function () {
   shadow.removeChild(contacts);
   document.body.removeChild(shadow);
-  contactsDiv.style.display = 'none';
+  contacts.style.display = 'none';
 }
 
 document.querySelector('.contactsButton').onclick = function () {
+  contacts.className = 'contacts';
+  contacts.style.display = 'flex';
   shadow.appendChild(contacts);
   document.body.appendChild(shadow);
 }
