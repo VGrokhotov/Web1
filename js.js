@@ -147,5 +147,7 @@ imgContainer.onclick = function() {
   } else {
     currentIndex++;
   }
-  imgContainer.img.src = "img/" + images[currentIndex]
+  
+  img = imgContainer.querySelector('img')
+  img.src = "img/" + images[currentIndex]
 }
